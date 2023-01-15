@@ -1,15 +1,25 @@
-# Template project
+# React Blackjack
 
 ## Overview
 
 ## Description
-This is a template repository.
 
 ## Requirement
+- Node.js 16.13+
 
 ## Usage
 
-## Install
+1. Install npm package
+  ```
+  $ npm install
+  ```
+2. Run `npm run dev`
+  ```
+  $ npm run dev
+  ```
+3. Access `http://localhost:3000` with a web browser
+
+If you want to start the game over, reload the page.
 
 ## Licence
 
