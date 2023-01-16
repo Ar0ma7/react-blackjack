@@ -1,17 +1,30 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { getDeck } from '@/scripts/getDeck'
+import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-const testInitialState = {}
+const initialState: {
+  deck: {
+    num: number
+    suit: string
+  }[]
+} = {
+  deck: getDeck(),
+}
 
-export const testSlice = createSlice({
-  name: 'test',
-  initialState: testInitialState,
-  reducers: {},
+export const slice = createSlice({
+  name: 'slice',
+  initialState,
+  reducers: {
+    draw(state, action: PayloadAction<number>) {
+      // 指定した数を先頭から削除
+      state.deck = state.deck.filter((_, index) => index < action.payload)
+    },
+  },
 })
 
 export const store = configureStore({
   reducer: {
-    init: testSlice.reducer,
+    default: slice.reducer,
   },
 })
 
