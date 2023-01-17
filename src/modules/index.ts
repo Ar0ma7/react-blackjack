@@ -1,30 +1,59 @@
 import { getDeck } from '@/scripts/getDeck'
+import { Deck, Card } from '@/types/global'
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 const initialState: {
-  deck: {
-    num: number
-    suit: string
-  }[]
+  deck: Deck
+  player: {
+    hand: Card[]
+    sum: number
+  }
+  dealer: {
+    hand: Card[]
+    sum: number
+  }
 } = {
   deck: getDeck(),
+  player: {
+    hand: [],
+    sum: 0,
+  },
+  dealer: {
+    hand: [],
+    sum: 0,
+  },
 }
 
-export const slice = createSlice({
-  name: 'slice',
+export const gameSlice = createSlice({
+  name: 'gameSlice',
   initialState,
   reducers: {
-    draw(state, action: PayloadAction<number>) {
-      // 指定した数を先頭から削除
-      state.deck = state.deck.filter((_, index) => index < action.payload)
+    draw(state, action: PayloadAction<'dealer' | 'player'>) {
+      state[action.payload].hand.push(state.deck[0])
+      let temp = 0
+      state[action.payload].hand.forEach((card) => {
+        temp += card.num >= 10 ? 10 : card.num
+      })
+      state[action.payload].sum = temp
+      state.deck = state.deck.filter((_, index) => index !== 0)
+    },
+    clearHand(state) {
+      state.dealer = {
+        hand: [],
+        sum: 0,
+      }
+      state.player = {
+        hand: [],
+        sum: 0,
+      }
     },
   },
 })
 
 export const store = configureStore({
   reducer: {
-    default: slice.reducer,
+    default: gameSlice.reducer,
   },
 })
 
