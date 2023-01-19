@@ -6,3 +6,5 @@ export type Card = {
 }
 
 export type Deck = Card[]
+
+export type PlayerAction = 'Stand' | 'Hit' | 'Double' | 'Insurance' | 'Split'

@@ -4,6 +4,7 @@ import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 const initialState: {
+  isInGame: boolean
   deck: Deck
   player: {
     hand: Card[]
@@ -14,6 +15,7 @@ const initialState: {
     sum: number
   }
 } = {
+  isInGame: false,
   deck: getDeck(),
   player: {
     hand: [],
@@ -29,6 +31,13 @@ export const gameSlice = createSlice({
   name: 'gameSlice',
   initialState,
   reducers: {
+    toggleGame(state, action?: PayloadAction<boolean>) {
+      if (action !== undefined) {
+        state.isInGame = action.payload
+      } else {
+        state.isInGame = !state.isInGame
+      }
+    },
     draw(state, action: PayloadAction<'dealer' | 'player'>) {
       state[action.payload].hand.push(state.deck[0])
       let temp = 0
@@ -48,6 +57,11 @@ export const gameSlice = createSlice({
         sum: 0,
       }
     },
+    stand(state) {},
+    hit(state) {},
+    double(state) {},
+    insurance(state) {},
+    split(state) {},
   },
 })
 

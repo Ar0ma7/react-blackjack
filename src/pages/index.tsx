@@ -2,9 +2,9 @@ import React from 'react'
 import Head from 'next/head'
 import { Card } from '@/components/Card'
 import { useAppSelector } from '@/modules'
+import { BoardContainer } from '@/components/container/BoardContainer'
 
 export default function Home() {
-  const { deck, player, dealer } = useAppSelector((state) => state.default)
   return (
     <div>
       <Head>
@@ -16,7 +16,7 @@ export default function Home() {
         <meta name='robots' content='noindex' />
       </Head>
       <div>
-        <Card card={deck[0]} />
+        <BoardContainer />
       </div>
     </div>
   )
