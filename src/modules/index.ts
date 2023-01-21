@@ -1,5 +1,6 @@
-import { getDeck } from '@/scripts/getDeck'
-import { Deck, Card } from '@/types/global'
+import getDeck from '@/scripts/getDeck'
+import { ACTION } from '@/scripts/variables'
+import { Deck, Card, PlayerAction } from '@/types/global'
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
@@ -14,6 +15,7 @@ const initialState: {
     hand: Card[]
     sum: number
   }
+  displayActionList: PlayerAction[]
 } = {
   isInGame: false,
   deck: getDeck(),
@@ -25,6 +27,7 @@ const initialState: {
     hand: [],
     sum: 0,
   },
+  displayActionList: ['Stand', 'Hit', 'Double'],
 }
 
 export const gameSlice = createSlice({
@@ -57,11 +60,32 @@ export const gameSlice = createSlice({
         sum: 0,
       }
     },
-    stand(state) {},
-    hit(state) {},
-    double(state) {},
-    insurance(state) {},
-    split(state) {},
+    setPlayerAction(state) {
+      if (state.dealer.hand[0].num === 1) {
+        state.displayActionList = [...state.displayActionList, 'Insurance']
+      }
+      if (state.player.hand[0].num === state.player.hand[1].num) {
+        state.displayActionList = [...state.displayActionList, 'Split']
+      }
+    },
+    playerAction(state, action: PayloadAction<PlayerAction>) {
+      // draw
+      if ([ACTION.HIT, ACTION.DOUBLE].includes(action.payload)) {
+        state.player.hand.push(state.deck[0])
+        let temp = 0
+        state.player.hand.forEach((card) => {
+          temp += card.num >= 10 ? 10 : card.num
+        })
+        state.player.sum = temp
+        state.deck = state.deck.filter((_, index) => index !== 0)
+        state.displayActionList = ['Stand', 'Hit']
+      }
+      if (action.payload === ACTION.INSURANCE) {
+        state.displayActionList = ['Stand', 'Hit']
+      }
+      // if (action.payload === ACTION.SPLIT) {
+      // }
+    },
   },
 })
 

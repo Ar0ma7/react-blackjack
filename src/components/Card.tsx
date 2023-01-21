@@ -18,6 +18,7 @@ Card.displayName = `Card`
 const StyledCard = styled.div`
   border: 1px solid #000;
   border-radius: 10px;
+  background: #fff;
   width: 130px;
   height: 200px;
 `

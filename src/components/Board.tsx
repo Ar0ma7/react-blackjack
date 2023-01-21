@@ -4,8 +4,10 @@ import styled from '@emotion/styled'
 import { Card } from '@/components/Card'
 import { Button } from 'react-bootstrap'
 import { PlayerAction, PlayerActionProps } from '@/components/PlayerAction'
+import { css } from '@emotion/react'
 
 export type BoardProps = {
+  isInGame: boolean
   deck: Deck
   player: {
     hand: CardType[]
@@ -18,29 +20,52 @@ export type BoardProps = {
   onClickDeal: () => void
 } & PlayerActionProps
 
-export const Board: React.FC<BoardProps> = React.memo(({ deck, player, dealer, onClickDeal }) => {
-  return (
-    <StyledBoard>
-      <HandBox>
-        {!!dealer.hand.length &&
-          dealer.hand.map((card, index) => <StyledCard key={index} {...{ card }} />)}
-      </HandBox>
-      <HandBox>
-        {!!player.hand.length &&
-          player.hand.map((card, index) => <StyledCard key={index} {...{ card }} />)}
-      </HandBox>
-      <Button variant='primary' onClick={onClickDeal}>
-        Deal
-      </Button>
-      <PlayerAction displayActionList={[]} onClickAction={() => {}} />
-    </StyledBoard>
-  )
-})
+export const Board: React.FC<BoardProps> = React.memo(
+  ({ isInGame, deck, player, dealer, displayActionList, onClickDeal, onClickAction }) => {
+    return (
+      <StyledBoard>
+        <div>
+          <HandBox>
+            {!!dealer.hand.length &&
+              dealer.hand.map((card, index) => (
+                <CardWrapper key={index}>
+                  <Card {...{ card }} />
+                </CardWrapper>
+              ))}
+          </HandBox>
+          <Sum>{dealer.sum}</Sum>
+        </div>
+        <div>
+          <Sum>{player.sum}</Sum>
+          <HandBox>
+            {!!player.hand.length &&
+              player.hand.map((card, index) => (
+                <CardWrapper key={index}>
+                  <Card {...{ card }} />
+                </CardWrapper>
+              ))}
+          </HandBox>
+        </div>
+        {!isInGame && (
+          <Button variant='primary' onClick={onClickDeal}>
+            Deal
+          </Button>
+        )}
+        <PlayerAction {...{ displayActionList, onClickAction }} />
+      </StyledBoard>
+    )
+  },
+)
 Board.displayName = `Board`
 
 const StyledBoard = styled.div`
   background: green;
   height: 100vh;
+`
+
+const Sum = styled.div`
+  margin: 0 auto;
+  text-align: center;
 `
 
 const HandBox = styled.div`
@@ -49,6 +74,8 @@ const HandBox = styled.div`
   justify-content: center;
 `
 
-const StyledCard = styled(Card)`
-  margin-left: -20;
+const CardWrapper = styled.div`
+  &:not(:first-child) {
+    margin-left: -60px;
+  }
 `
