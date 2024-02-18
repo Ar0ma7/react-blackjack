@@ -23,5 +23,10 @@ export const styles = {
   playerBoard: (gridArea: GridArea) => css`
     outline: 1px solid;
     grid-area: ${gridArea};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
   `,
 };
