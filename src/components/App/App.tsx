@@ -1,7 +1,7 @@
-import './App.css';
+import { BoardContainer } from '../Board';
 
 export const App = () => {
-  return <></>;
+  return <BoardContainer />;
 };
 
 export default App;
