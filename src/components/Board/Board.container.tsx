@@ -1,5 +1,8 @@
 import { Board } from './Board';
+import { useStore } from '@/store';
 
 export const BoardContainer = () => {
-  return <Board />;
+  const { hand } = useStore();
+
+  return <Board hand={hand} />;
 };

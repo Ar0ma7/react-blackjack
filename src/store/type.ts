@@ -1,12 +1,3 @@
-import { Deck } from '@/types';
+import { CardSlice } from './slices/cardSlice';
 
-export type State = {
-  deck: Deck;
-};
-
-export type Action = {
-  draw: () => void;
-  reset: () => void;
-};
-
-export type Store = State & Action;
+export type Store = CardSlice;
