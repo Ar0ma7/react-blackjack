@@ -1,3 +1,4 @@
+import { Paper } from '@mui/material';
 import { memo } from 'react';
 import { styles } from './Card.css';
 import { Card as CardType } from '@/types/index';
@@ -8,10 +9,10 @@ type Props = CardType & {
 
 export const Card = memo(({ suite, number }: Props) => {
   return (
-    <div css={styles.card}>
+    <Paper elevation={4} css={styles.card}>
       {suite}
       {number}
-    </div>
+    </Paper>
   );
 });
 Card.displayName = 'Card';

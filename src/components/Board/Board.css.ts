@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 
-type GridArea = 'dealerArea' | '_center' | 'playerArea';
+type GridArea = 'dealerArea' | 'center' | 'playerArea';
 
 const gridTemplateAreas: GridArea[][] = [
   ['dealerArea'],
-  ['_center'],
+  ['center'],
   ['playerArea'],
 ];
 const gridTemplateAreasString = gridTemplateAreas
@@ -28,5 +28,10 @@ export const styles = {
     align-items: center;
     gap: 20px;
     padding: 40px;
+  `,
+  centerBoard: css`
+    grid-area: 'center';
+    text-align: center;
+    align-self: center;
   `,
 };

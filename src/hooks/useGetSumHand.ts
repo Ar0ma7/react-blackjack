@@ -3,7 +3,15 @@ import { ROLE } from '@/constants';
 import { useStore } from '@/store';
 import { Role } from '@/types';
 
-export const useGetSumHand = () => {
+export type SumHand = {
+  player: number[];
+  dealer: number[];
+};
+
+/**
+ * 各プレイヤーハンドの合計を返す
+ */
+export const useGetSumHand = (): SumHand => {
   const { hand: allHand } = useStore();
 
   const getSumHand = useCallback(
