@@ -11,6 +11,7 @@ type State = {
 
 type Action = {
   draw: (role: Role, isFront?: boolean) => void;
+  openDealerHand: () => void;
   reset: () => void;
 };
 
@@ -46,6 +47,21 @@ export const cardSlice: StateCreator<CardSlice> = (set, get) => ({
     }
 
     set({ deck: drawnDeck, hand: newHand });
+  },
+  openDealerHand: () => {
+    const dealerHand = get().hand.dealer;
+    const newHand = dealerHand.map((params) => ({
+      ...params,
+      isFront: true,
+    }));
+
+    set((prev) => ({
+      ...prev,
+      hand: {
+        ...prev.hand,
+        dealer: newHand,
+      },
+    }));
   },
   reset: () => set(initialState),
 });

@@ -4,7 +4,7 @@ import { ROLE } from '@/constants';
 import { useStore } from '@/store';
 
 export const AppContainer = () => {
-  const { draw, reset } = useStore();
+  const { draw, openDealerHand, reset } = useStore();
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -13,11 +13,23 @@ export const AppContainer = () => {
     draw(ROLE.DEALER, false);
   }, [draw]);
 
+  const dealerTurn = useCallback(async () => {
+    const interval = 2000;
+
+    openDealerHand();
+
+    setInterval(() => {
+      draw(ROLE.DEALER);
+    }, interval);
+  }, [draw, openDealerHand]);
+
   const handleClickHit = useCallback(() => {
     draw(ROLE.PLAYER);
   }, [draw]);
 
-  const handleClickStand = useCallback(() => {}, []);
+  const handleClickStand = useCallback(() => {
+    dealerTurn();
+  }, [dealerTurn]);
 
   // on mounted
   useEffect(() => {
