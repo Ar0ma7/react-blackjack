@@ -10,7 +10,7 @@ type State = {
 };
 
 type Action = {
-  draw: (role: Role) => void;
+  draw: (role: Role, isFront?: boolean) => void;
   reset: () => void;
 };
 
@@ -26,7 +26,7 @@ const initialState: State = {
 
 export const cardSlice: StateCreator<CardSlice> = (set, get) => ({
   ...initialState,
-  draw: (role) => {
+  draw: (role, isFront = true) => {
     const { deck, hand } = get();
     const randomIndex = getRandomInt(deck.length);
     const drawCard = deck.find((_, index) => index === randomIndex)!;
@@ -36,12 +36,12 @@ export const cardSlice: StateCreator<CardSlice> = (set, get) => ({
     if (role === ROLE.DEALER) {
       newHand = {
         ...hand,
-        dealer: [...hand.dealer, drawCard],
+        dealer: [...hand.dealer, { ...drawCard, isFront }],
       };
     } else if (role === ROLE.PLAYER) {
       newHand = {
         ...hand,
-        player: [...hand.player, drawCard],
+        player: [...hand.player, { ...drawCard, isFront }],
       };
     }
 

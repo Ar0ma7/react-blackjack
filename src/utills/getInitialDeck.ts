@@ -10,6 +10,7 @@ export const getInitialDeck = (deckNum: number = 2): Deck => {
         deck.push({
           number: index as CardNumber,
           suite,
+          isFront: false,
         });
       });
     }

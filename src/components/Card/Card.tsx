@@ -3,15 +3,12 @@ import { memo } from 'react';
 import { styles } from './Card.css';
 import { Card as CardType } from '@/types/index';
 
-type Props = CardType & {
-  isFront: boolean;
-};
+type Props = CardType;
 
-export const Card = memo(({ suite, number }: Props) => {
+export const Card = memo(({ suite, number, isFront }: Props) => {
   return (
     <Paper elevation={4} css={styles.card}>
-      {suite}
-      {number}
+      {isFront && `${suite}${number}`}
     </Paper>
   );
 });

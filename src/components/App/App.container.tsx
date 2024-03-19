@@ -10,7 +10,7 @@ export const AppContainer = () => {
     draw(ROLE.PLAYER);
     draw(ROLE.PLAYER);
     draw(ROLE.DEALER);
-    draw(ROLE.DEALER);
+    draw(ROLE.DEALER, false);
   }, [draw]);
 
   const handleClickHit = useCallback(() => {

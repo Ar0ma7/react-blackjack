@@ -14,8 +14,8 @@ export const Board = memo(({ hand, sumHand }: Props) => {
   return (
     <div css={styles.wrapper}>
       <div css={styles.playerBoard('dealerArea')}>
-        {hand.dealer.map(({ suite, number }, index) => (
-          <Card key={index} suite={suite} number={number} isFront />
+        {hand.dealer.map(({ suite, number, isFront }, index) => (
+          <Card key={index} suite={suite} number={number} isFront={isFront} />
         ))}
       </div>
       <div css={styles.centerBoard}>
@@ -23,8 +23,8 @@ export const Board = memo(({ hand, sumHand }: Props) => {
         <div>{player.join(' / ')}</div>
       </div>
       <div css={styles.playerBoard('playerArea')}>
-        {hand.player.map(({ suite, number }, index) => (
-          <Card key={index} suite={suite} number={number} isFront />
+        {hand.player.map(({ suite, number, isFront }, index) => (
+          <Card key={index} suite={suite} number={number} isFront={isFront} />
         ))}
       </div>
     </div>
