@@ -23,7 +23,8 @@ export const useGetSumHand = (): SumHand => {
         number >= 10 ? 10 : number
       ) as number[];
       const normalizedSum = normalized.reduce(
-        (previous, current) => previous + current
+        (previous, current) => previous + current,
+        0
       );
       const sumList = [normalizedSum];
 
@@ -33,7 +34,8 @@ export const useGetSumHand = (): SumHand => {
           number === 1 ? 11 : number
         );
         const normalized11Sum = normalized11.reduce(
-          (previous, current) => previous + current
+          (previous, current) => previous + current,
+          0
         );
 
         // 11として計算して21を超えていなければ両方の合計を返す
