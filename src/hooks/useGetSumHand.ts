@@ -7,25 +7,37 @@ export const useGetSumHand = () => {
   const { hand: allHand } = useStore();
 
   const getSumHand = useCallback(
-    (role: Role) => {
+    (role: Role): number[] => {
       const hand = allHand[role];
       const handNumberList = hand.map(({ number }) => number);
-
-      if (
-        hand.length === 2 &&
-        handNumberList.includes(1) &&
-        (handNumberList.includes(11) ||
-          handNumberList.includes(12) ||
-          handNumberList.includes(13))
-      ) {
-        return 11;
-      }
-
-      const normalized = hand.map(({ number }) => (number >= 10 ? 10 : number));
-
-      return (normalized as number[]).reduce(
+      /**
+       * 1 → 1
+       * 10~13 → 10
+       */
+      const normalized = hand.map(({ number }) =>
+        number >= 10 ? 10 : number
+      ) as number[];
+      const normalizedSum = normalized.reduce(
         (previous, current) => previous + current
       );
+
+      if (handNumberList.includes(1)) {
+        /**
+         * 1 → 11
+         * 10~13 → 10
+         */
+        const normalized11 = normalized.map((number) =>
+          number === 1 ? 11 : number
+        );
+        const normalized11Sum = normalized11.reduce(
+          (previous, current) => previous + current
+        );
+
+        // 1と11として計算した結果両方を返す
+        return [normalizedSum, normalized11Sum];
+      }
+
+      return [normalizedSum];
     },
     [allHand]
   );
