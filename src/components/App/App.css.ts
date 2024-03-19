@@ -6,8 +6,8 @@ export const styles = {
   `,
   buttonWrapper: css`
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 40px;
+    bottom: 40px;
   `,
   button: css`
     width: 150px;

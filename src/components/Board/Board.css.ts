@@ -28,6 +28,7 @@ export const styles = {
     align-items: center;
     gap: 20px;
     padding: 40px;
+    overflow-x: auto;
   `,
   centerBoard: css`
     grid-area: 'center';
