@@ -1,10 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import App from './App';
 import { ROLE } from '@/constants';
+import { useHitOperation } from '@/hooks/useHitOperation';
+import { useStandOperation } from '@/hooks/useStandOperation';
 import { useStore } from '@/store';
 
 export const AppContainer = () => {
-  const { draw, openDealerHand, reset } = useStore();
+  const { draw, reset } = useStore();
+  const stand = useStandOperation();
+  const hit = useHitOperation();
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -13,23 +17,13 @@ export const AppContainer = () => {
     draw(ROLE.DEALER, false);
   }, [draw]);
 
-  const dealerTurn = useCallback(async () => {
-    const interval = 2000;
-
-    openDealerHand();
-
-    setInterval(() => {
-      draw(ROLE.DEALER);
-    }, interval);
-  }, [draw, openDealerHand]);
-
   const handleClickHit = useCallback(() => {
-    draw(ROLE.PLAYER);
-  }, [draw]);
+    hit();
+  }, [hit]);
 
   const handleClickStand = useCallback(() => {
-    dealerTurn();
-  }, [dealerTurn]);
+    stand();
+  }, [stand]);
 
   // on mounted
   useEffect(() => {
