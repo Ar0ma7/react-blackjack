@@ -18,22 +18,17 @@ export const useGetSumHand = (): SumHand => {
     (role: Role): number[] => {
       const hand = allHand[role];
       const handNumberList = hand.map(({ number }) => number);
-      /**
-       * 1 → 1
-       * 10~13 → 10
-       */
+      /** 1 → 1,  10~13 → 10 */
       const normalized = hand.map(({ number }) =>
         number >= 10 ? 10 : number
       ) as number[];
       const normalizedSum = normalized.reduce(
         (previous, current) => previous + current
       );
+      const sumList = [normalizedSum];
 
       if (handNumberList.includes(1)) {
-        /**
-         * 1 → 11
-         * 10~13 → 10
-         */
+        /** 1 → 11,  10~13 → 10 */
         const normalized11 = normalized.map((number) =>
           number === 1 ? 11 : number
         );
@@ -41,8 +36,10 @@ export const useGetSumHand = (): SumHand => {
           (previous, current) => previous + current
         );
 
-        // 1と11として計算した結果両方を返す
-        return [normalizedSum, normalized11Sum];
+        // 11として計算して21を超えていなければ両方の合計を返す
+        if (normalized11Sum <= 21) {
+          sumList.push(normalized11Sum);
+        }
       }
 
       return [normalizedSum];
