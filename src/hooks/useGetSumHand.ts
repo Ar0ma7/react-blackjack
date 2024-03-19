@@ -42,7 +42,7 @@ export const useGetSumHand = (): SumHand => {
         }
       }
 
-      return [normalizedSum];
+      return sumList;
     },
     [allHand]
   );
