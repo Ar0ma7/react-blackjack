@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Snackbar } from '@mui/material';
+import { Button, ButtonGroup, Slider, Snackbar } from '@mui/material';
 import { memo, useMemo } from 'react';
 import { BoardContainer } from '../Board';
 import { styles } from './App.css';
@@ -7,7 +7,9 @@ import { capitalizeFirstLetter } from '@/utills/stringUtill';
 
 type Props = {
   winner: Winner;
+  gold: number;
   isOpenNotice: boolean;
+  handleChangeSlider: (value: number) => void;
   handleCloseNotice: () => void;
   handleClickHit: () => void;
   handleClickStand: () => void;
@@ -16,7 +18,9 @@ type Props = {
 export const App = memo(
   ({
     winner,
+    gold,
     isOpenNotice,
+    handleChangeSlider,
     handleCloseNotice,
     handleClickHit,
     handleClickStand,
@@ -34,7 +38,16 @@ export const App = memo(
     return (
       <div css={styles.container}>
         <BoardContainer />
+
         <div css={styles.buttonWrapper}>
+          <div css={styles.gold}>{gold}</div>
+          <Slider
+            defaultValue={1000}
+            step={1000}
+            max={10000}
+            valueLabelDisplay="on"
+            onChange={(_, value) => handleChangeSlider(value as number)}
+          />
           <ButtonGroup orientation="vertical" variant="contained" size="large">
             <Button css={styles.button} onClick={handleClickHit}>
               Hit
@@ -44,6 +57,7 @@ export const App = memo(
             </Button>
           </ButtonGroup>
         </div>
+
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={isOpenNotice}

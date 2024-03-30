@@ -11,6 +11,7 @@ const initialState: State = {
     player: [],
   },
   winner: undefined,
+  gold: 5000,
 };
 
 export const useStore = create<Store>((set, get) => ({

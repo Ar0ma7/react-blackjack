@@ -4,6 +4,7 @@ export type State = {
   deck: Deck;
   hand: Hand;
   winner: Winner;
+  gold: number;
 };
 
 export type Action = {

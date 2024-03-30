@@ -12,4 +12,7 @@ export const styles = {
   button: css`
     width: 150px;
   `,
+  gold: css`
+    margin-bottom: 40px;
+  `,
 };
