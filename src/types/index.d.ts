@@ -19,3 +19,5 @@ export type Hand = {
   player: Card[];
   dealer: Card[];
 };
+
+export type Winner = Role | 'draw' | undefined;
