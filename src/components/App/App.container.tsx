@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import App from './App';
 import { ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
@@ -6,9 +6,10 @@ import { useStandOperation } from '@/hooks/useStandOperation';
 import { useStore } from '@/store';
 
 export const AppContainer = () => {
-  const { draw, reset } = useStore();
+  const { winner, draw, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
+  const [isOpenNotice, setOpenNotice] = useState(false);
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -25,6 +26,10 @@ export const AppContainer = () => {
     stand();
   }, [stand]);
 
+  const handleCloseNotice = useCallback(() => {
+    setOpenNotice(false);
+  }, []);
+
   // on mounted
   useEffect(() => {
     setInitialHand();
@@ -34,7 +39,19 @@ export const AppContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (winner) {
+      setOpenNotice(true);
+    }
+  }, [winner]);
+
   return (
-    <App handleClickHit={handleClickHit} handleClickStand={handleClickStand} />
+    <App
+      winner={winner}
+      isOpenNotice={isOpenNotice}
+      handleCloseNotice={handleCloseNotice}
+      handleClickHit={handleClickHit}
+      handleClickStand={handleClickStand}
+    />
   );
 };
