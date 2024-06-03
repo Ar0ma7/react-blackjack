@@ -4,15 +4,17 @@ import { ROLE } from '@/constants';
 import { useStore } from '@/store';
 
 export const useHitOperation = () => {
-  const { winner, draw, replace } = useStore();
+  const { draw, replace } = useStore();
   const sumHand = useGetSumHand();
+  // useEffect発火用
   const [hitCount, setHitCount] = useState(0);
 
   useEffect(() => {
-    if (!sumHand.player.length) {
+    if (sumHand.player[0] > 21) {
       replace({ winner: ROLE.DEALER });
     }
-  }, [hitCount, replace, sumHand.player.length, winner]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hitCount]);
 
   return useCallback(() => {
     draw(ROLE.PLAYER);

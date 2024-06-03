@@ -8,7 +8,7 @@ import { capitalizeFirstLetter } from '@/utills/stringUtill';
 type Props = {
   winner: Winner;
   gold: number;
-  isOpenNotice: boolean;
+  isShowNotice: boolean;
   handleChangeSlider: (value: number) => void;
   handleCloseNotice: () => void;
   handleClickHit: () => void;
@@ -19,7 +19,7 @@ export const App = memo(
   ({
     winner,
     gold,
-    isOpenNotice,
+    isShowNotice,
     handleChangeSlider,
     handleCloseNotice,
     handleClickHit,
@@ -60,7 +60,7 @@ export const App = memo(
 
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={isOpenNotice}
+          open={isShowNotice}
           onClose={handleCloseNotice}
           message={message}
         />

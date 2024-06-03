@@ -5,13 +5,14 @@ import { LOCAL_STORAGE_KEY, ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
 import { useStandOperation } from '@/hooks/useStandOperation';
 import { useStore } from '@/store';
+import { sleep } from '@/utills/timer';
 
 export const AppContainer = () => {
-  const { winner, gold, draw, replace, reset } = useStore();
+  const { winner, gold, draw, replace, resetForNextGame, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
   const [localStorageGold] = useLocalStorage<number>(LOCAL_STORAGE_KEY.GOLD);
-  const [isOpenNotice, setOpenNotice] = useState(false);
+  const [isShowNotice, setIsShowNotice] = useState(false);
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -26,21 +27,29 @@ export const AppContainer = () => {
     }
   }, [localStorageGold, replace]);
 
-  const handleClickHit = useCallback(() => {
-    hit();
-  }, [hit]);
-
-  const handleClickStand = useCallback(() => {
-    stand();
-  }, [stand]);
-
-  const handleCloseNotice = useCallback(() => {
-    setOpenNotice(false);
-  }, []);
-
   const handleChangeSlider = useCallback((value: number) => {
     console.log(value);
   }, []);
+
+  const noticeWinner = useCallback(async () => {
+    if (winner) {
+      setIsShowNotice(true);
+      await sleep(3000);
+    }
+    setIsShowNotice(false);
+  }, [winner]);
+
+  const readyForNextGame = useCallback(async () => {
+    await noticeWinner();
+    replace({
+      hand: {
+        dealer: [],
+        player: [],
+      },
+      winner: undefined,
+    });
+    setInitialHand();
+  }, [noticeWinner, replace, setInitialHand]);
 
   // on mounted
   useEffect(() => {
@@ -53,20 +62,18 @@ export const AppContainer = () => {
   }, []);
 
   useEffect(() => {
-    if (winner) {
-      setOpenNotice(true);
-    }
-  }, [winner]);
+    readyForNextGame();
+  }, [readyForNextGame, winner]);
 
   return (
     <App
       winner={winner}
       gold={gold}
-      isOpenNotice={isOpenNotice}
+      isShowNotice={isShowNotice}
       handleChangeSlider={handleChangeSlider}
-      handleCloseNotice={handleCloseNotice}
-      handleClickHit={handleClickHit}
-      handleClickStand={handleClickStand}
+      handleCloseNotice={() => setIsShowNotice(false)}
+      handleClickHit={hit}
+      handleClickStand={stand}
     />
   );
 };
