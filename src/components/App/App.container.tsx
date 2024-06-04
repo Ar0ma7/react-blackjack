@@ -8,7 +8,7 @@ import { useStore } from '@/store';
 import { sleep } from '@/utills/timer';
 
 export const AppContainer = () => {
-  const { winner, gold, draw, replace, resetForNextGame, reset } = useStore();
+  const { winner, gold, startFlag, draw, replace, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
   const [localStorageGold] = useLocalStorage<number>(LOCAL_STORAGE_KEY.GOLD);
@@ -26,6 +26,11 @@ export const AppContainer = () => {
       replace({ gold: localStorageGold });
     }
   }, [localStorageGold, replace]);
+
+  const handleClickStart = useCallback(() => {
+    replace({ startFlag: true });
+    setInitialHand();
+  }, [replace, setInitialHand]);
 
   const handleChangeSlider = useCallback((value: number) => {
     console.log(value);
@@ -47,13 +52,12 @@ export const AppContainer = () => {
         player: [],
       },
       winner: undefined,
+      startFlag: false,
     });
-    setInitialHand();
-  }, [noticeWinner, replace, setInitialHand]);
+  }, [noticeWinner, replace]);
 
   // on mounted
   useEffect(() => {
-    setInitialHand();
     setInitialGold();
     return () => {
       reset();
@@ -62,18 +66,22 @@ export const AppContainer = () => {
   }, []);
 
   useEffect(() => {
-    readyForNextGame();
+    if (winner) {
+      readyForNextGame();
+    }
   }, [readyForNextGame, winner]);
 
   return (
     <App
       winner={winner}
       gold={gold}
+      startFlag={startFlag}
       isShowNotice={isShowNotice}
-      handleChangeSlider={handleChangeSlider}
-      handleCloseNotice={() => setIsShowNotice(false)}
-      handleClickHit={hit}
-      handleClickStand={stand}
+      onClickStart={handleClickStart}
+      onChangeSlider={handleChangeSlider}
+      onCloseNotice={() => setIsShowNotice(false)}
+      onClickHit={hit}
+      onClickStand={stand}
     />
   );
 };

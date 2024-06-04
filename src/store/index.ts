@@ -12,6 +12,7 @@ const initialState: State = {
   },
   winner: undefined,
   gold: 5000,
+  startFlag: false,
 };
 
 export const useStore = create<Store>((set, get) => ({

@@ -5,6 +5,7 @@ export type State = {
   hand: Hand;
   winner: Winner;
   gold: number;
+  startFlag: boolean;
 };
 
 export type Action = {

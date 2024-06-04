@@ -1,30 +1,33 @@
 import { Button, ButtonGroup, Slider, Snackbar } from '@mui/material';
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { BoardContainer } from '../Board';
 import { styles } from './App.css';
-import { Winner } from '@/types';
+import { State } from '@/store/type';
 import { capitalizeFirstLetter } from '@/utills/stringUtill';
 
-type Props = {
-  winner: Winner;
-  gold: number;
+type Props = Pick<State, 'gold' | 'winner' | 'startFlag'> & {
   isShowNotice: boolean;
-  handleChangeSlider: (value: number) => void;
-  handleCloseNotice: () => void;
-  handleClickHit: () => void;
-  handleClickStand: () => void;
+  onClickStart: () => void;
+  onChangeSlider: (value: number) => void;
+  onCloseNotice: () => void;
+  onClickHit: () => void;
+  onClickStand: () => void;
 };
 
 export const App = memo(
   ({
     winner,
     gold,
+    startFlag,
     isShowNotice,
-    handleChangeSlider,
-    handleCloseNotice,
-    handleClickHit,
-    handleClickStand,
+    onClickStart,
+    onChangeSlider,
+    onCloseNotice,
+    onClickHit,
+    onClickStand,
   }: Props) => {
+    const [disabled, setDisabled] = useState(false);
+
     const message = useMemo<string>(() => {
       if (winner === 'draw') {
         return winner;
@@ -35,33 +38,74 @@ export const App = memo(
       return '';
     }, [winner]);
 
+    useEffect(() => {
+      if (winner) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    }, [winner]);
+
     return (
       <div css={styles.container}>
         <BoardContainer />
 
-        <div css={styles.buttonWrapper}>
-          <div css={styles.gold}>{gold}</div>
-          <Slider
-            defaultValue={1000}
-            step={1000}
-            max={10000}
-            valueLabelDisplay="on"
-            onChange={(_, value) => handleChangeSlider(value as number)}
-          />
-          <ButtonGroup orientation="vertical" variant="contained" size="large">
-            <Button css={styles.button} onClick={handleClickHit}>
-              Hit
-            </Button>
-            <Button css={styles.button} onClick={handleClickStand}>
-              Stand
-            </Button>
-          </ButtonGroup>
-        </div>
+        {!startFlag && (
+          <div css={styles.startView}>
+            <div css={[styles.label, styles.startViewItem('GoldLabel')]}>
+              GOLD:
+            </div>
+            <div css={styles.startViewItem('Gold')}>{gold}</div>
+            <div css={[styles.label, styles.startViewItem('SliderLabel')]}>
+              BET:
+            </div>
+            <Slider
+              css={styles.startViewItem('Slider')}
+              defaultValue={1000}
+              step={1000}
+              min={1000}
+              max={10000}
+              valueLabelDisplay="on"
+              disabled={disabled}
+              onChange={(_, value) => onChangeSlider(value as number)}
+            />
+
+            <div css={styles.startViewItem('StartButton')}>
+              <Button variant="contained" size="large" onClick={onClickStart}>
+                Start
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {startFlag && (
+          <div css={styles.buttonWrapper}>
+            <ButtonGroup
+              disabled={disabled}
+              orientation="vertical"
+              variant="contained"
+              size="large"
+            >
+              <Button css={styles.button} onClick={onClickHit}>
+                Hit
+              </Button>
+              <Button
+                css={styles.button}
+                onClick={() => {
+                  onClickStand();
+                  setDisabled(true);
+                }}
+              >
+                Stand
+              </Button>
+            </ButtonGroup>
+          </div>
+        )}
 
         <Snackbar
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={isShowNotice}
-          onClose={handleCloseNotice}
+          onClose={onCloseNotice}
           message={message}
         />
       </div>

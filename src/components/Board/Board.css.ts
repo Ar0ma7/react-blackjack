@@ -1,20 +1,24 @@
 import { css } from '@emotion/react';
+import { getGridTemplate } from '@/utills/styleUtil';
 
 type GridArea = 'dealerArea' | 'center' | 'playerArea';
-
 const gridTemplateAreas: GridArea[][] = [
   ['dealerArea'],
   ['center'],
   ['playerArea'],
 ];
-const gridTemplateAreasString = gridTemplateAreas
-  .map((row) => `"${row.join(' ')}"`)
-  .join('\n');
+const gridTemplateRows = ['40%', '20%', '40%'];
+const gridTemplateColumns = ['auto'];
+const gridTemplateString = getGridTemplate(
+  gridTemplateAreas,
+  gridTemplateRows,
+  gridTemplateColumns
+);
 
 export const styles = {
   wrapper: css`
     display: grid;
-    grid-template-areas: ${gridTemplateAreasString};
+    grid-template: ${gridTemplateString};
     grid-template-rows: 40% 20% 40%;
     grid-template-columns: auto;
     width: 100vw;
