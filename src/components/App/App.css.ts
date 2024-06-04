@@ -37,6 +37,11 @@ export const styles = {
   label: css`
     text-align: right;
   `,
+  goldInfo: css`
+    display: grid;
+    grid-template: auto auto / 4em auto;
+    gap: 2px;
+  `,
   buttonWrapper: css`
     position: absolute;
     right: 40px;

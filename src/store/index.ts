@@ -12,6 +12,7 @@ const initialState: State = {
   },
   winner: undefined,
   gold: 5000,
+  bet: 100,
   startFlag: false,
 };
 

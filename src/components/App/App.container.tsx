@@ -8,11 +8,21 @@ import { useStore } from '@/store';
 import { sleep } from '@/utills/timer';
 
 export const AppContainer = () => {
-  const { winner, gold, startFlag, draw, replace, reset } = useStore();
+  const { winner, gold, bet, startFlag, draw, replace, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
-  const [localStorageGold] = useLocalStorage<number>(LOCAL_STORAGE_KEY.GOLD);
+  const [localStorageGold, setLocalStorageGold] = useLocalStorage<number>(
+    LOCAL_STORAGE_KEY.GOLD
+  );
   const [isShowNotice, setIsShowNotice] = useState(false);
+
+  const setInitialGold = useCallback(() => {
+    if (!localStorageGold || localStorageGold < 100) {
+      setLocalStorageGold(gold);
+    } else {
+      replace({ gold: localStorageGold });
+    }
+  }, [gold, localStorageGold, replace, setLocalStorageGold]);
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -21,28 +31,33 @@ export const AppContainer = () => {
     draw(ROLE.DEALER, false);
   }, [draw]);
 
-  const setInitialGold = useCallback(() => {
-    if (localStorageGold) {
-      replace({ gold: localStorageGold });
-    }
-  }, [localStorageGold, replace]);
-
   const handleClickStart = useCallback(() => {
-    replace({ startFlag: true });
+    replace({ startFlag: true, gold: gold - bet });
     setInitialHand();
-  }, [replace, setInitialHand]);
+  }, [bet, gold, replace, setInitialHand]);
 
-  const handleChangeSlider = useCallback((value: number) => {
-    console.log(value);
-  }, []);
+  const handleChangeSlider = useCallback(
+    (bet: number) => {
+      replace({ bet });
+    },
+    [replace]
+  );
 
   const noticeWinner = useCallback(async () => {
-    if (winner) {
+    if (winner !== undefined) {
       setIsShowNotice(true);
-      await sleep(3000);
+      let total = gold;
+      if (winner === ROLE.PLAYER) {
+        total += bet * 2;
+      } else if (winner === 'draw') {
+        total += bet;
+      }
+      replace({ gold: total });
+      setLocalStorageGold(total);
     }
+    await sleep(3000);
     setIsShowNotice(false);
-  }, [winner]);
+  }, [bet, gold, replace, setLocalStorageGold, winner]);
 
   const readyForNextGame = useCallback(async () => {
     await noticeWinner();
@@ -69,12 +84,14 @@ export const AppContainer = () => {
     if (winner) {
       readyForNextGame();
     }
-  }, [readyForNextGame, winner]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [winner]);
 
   return (
     <App
       winner={winner}
       gold={gold}
+      bet={bet}
       startFlag={startFlag}
       isShowNotice={isShowNotice}
       onClickStart={handleClickStart}
