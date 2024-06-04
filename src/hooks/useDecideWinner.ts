@@ -18,7 +18,7 @@ export const useDecideWinner = () => {
     const dealerNum = getMax(sumHand.dealer);
     const playerNum = getMax(sumHand.player);
 
-    if (dealerNum <= 21 || playerNum <= 21) {
+    if (dealerNum <= 21 && playerNum <= 21) {
       if (dealerNum > playerNum) {
         winner = ROLE.DEALER;
       } else if (dealerNum < playerNum) {
