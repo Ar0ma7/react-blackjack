@@ -50,4 +50,10 @@ export const styles = {
   button: css`
     width: 150px;
   `,
+  reset: css`
+    display: inline-block;
+    text-align: center;
+    margin: 10px auto 0;
+    cursor: pointer;
+  `,
 };

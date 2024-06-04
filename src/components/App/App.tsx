@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Slider, Snackbar } from '@mui/material';
+import { Button, ButtonGroup, Link, Slider, Snackbar } from '@mui/material';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { BoardContainer } from '../Board';
 import { styles } from './App.css';
@@ -12,6 +12,7 @@ type Props = Pick<State, 'gold' | 'bet' | 'winner' | 'startFlag'> & {
   onCloseNotice: () => void;
   onClickHit: () => void;
   onClickStand: () => void;
+  onClickReset: () => void;
 };
 
 export const App = memo(
@@ -26,8 +27,10 @@ export const App = memo(
     onCloseNotice,
     onClickHit,
     onClickStand,
+    onClickReset,
   }: Props) => {
     const [disabled, setDisabled] = useState(false);
+    const isAbleStart = gold >= 100;
 
     const message = useMemo<string>(() => {
       if (winner === 'draw') {
@@ -66,16 +69,34 @@ export const App = memo(
               step={100}
               min={100}
               max={gold}
-              valueLabelDisplay="on"
-              disabled={disabled}
+              valueLabelDisplay={isAbleStart ? 'on' : 'off'}
+              disabled={!isAbleStart}
               onChange={(_, value) => {
                 onChangeSlider(value as number);
               }}
             />
-            <div css={styles.startViewItem('StartButton')}>
-              <Button variant="contained" size="large" onClick={onClickStart}>
-                Start
-              </Button>
+            <div
+              css={[
+                styles.startViewItem('StartButton'),
+                { textAlign: 'center' },
+              ]}
+            >
+              <div>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={onClickStart}
+                  disabled={!isAbleStart}
+                >
+                  Start
+                </Button>
+              </div>
+
+              {!isAbleStart && (
+                <Link css={styles.reset} onClick={onClickReset}>
+                  reset
+                </Link>
+              )}
             </div>
           </div>
         )}

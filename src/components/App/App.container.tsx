@@ -71,6 +71,10 @@ export const AppContainer = () => {
     });
   }, [noticeWinner, replace]);
 
+  const handleClickReset = useCallback(() => {
+    reset();
+  }, [reset]);
+
   // on mounted
   useEffect(() => {
     setInitialGold();
@@ -99,6 +103,7 @@ export const AppContainer = () => {
       onCloseNotice={() => setIsShowNotice(false)}
       onClickHit={hit}
       onClickStand={stand}
+      onClickReset={handleClickReset}
     />
   );
 };
