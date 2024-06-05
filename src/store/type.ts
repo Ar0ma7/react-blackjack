@@ -7,6 +7,7 @@ export type State = {
   gold: number;
   bet: number;
   startFlag: boolean;
+  isShowNotice: boolean;
 };
 
 export type Action = {

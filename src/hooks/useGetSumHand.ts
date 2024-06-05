@@ -21,24 +21,23 @@ export const useGetSumHand = (): SumHand => {
       const handNumberList = hand.map(({ number }) => number);
       const sumList = [];
 
-      /** 1 → 1,  10~13 → 10 に正規化 */
-      const normalized = hand.map(({ number }) =>
+      /** ハード17に正規化 */
+      const normalizeHard = hand.map(({ number }) =>
         number >= 10 ? 10 : number
       ) as number[];
-      const normalizedSum = sum(normalized);
+      const normalizeHardSum = sum(normalizeHard);
 
-      sumList.push(normalizedSum);
+      sumList.push(normalizeHardSum);
 
       if (handNumberList.includes(1)) {
-        /** 1 → 11,  10~13 → 10 */
-        const normalized11 = normalized.map((number) =>
+        /** ソフト17に正規化 */
+        const normalizeSoft = normalizeHard.map((number) =>
           number === 1 ? 11 : number
         );
-        const normalized11Sum = sum(normalized11);
+        const normalizeSoftSum = sum(normalizeSoft);
 
-        // 11として計算して21を超えていなければ両方の合計を返す
-        if (normalized11Sum <= 21) {
-          sumList.push(normalized11Sum);
+        if (normalizeSoftSum <= 21) {
+          sumList.push(normalizeSoftSum);
         }
       }
 

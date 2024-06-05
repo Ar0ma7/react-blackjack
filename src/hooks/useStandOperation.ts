@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDecideWinner } from './useDecideWinner';
 import { useGetSumHand } from './useGetSumHand';
 import { ROLE } from '@/constants';
@@ -12,13 +12,16 @@ export const useStandOperation = () => {
 
   const [looping, setLooping] = useState(false);
 
+  const isUnder17 = useMemo<boolean>(
+    () =>
+      !sumHand.dealer.length ? false : sumHand.dealer.every((sum) => sum < 17),
+    [sumHand.dealer]
+  );
+
   useEffect(() => {
     let intervalId: number;
     if (looping) {
       intervalId = setInterval(() => {
-        const isUnder17 = !sumHand.dealer.length
-          ? false
-          : sumHand.dealer.every((sum) => sum < 17);
         if (isUnder17) {
           draw(ROLE.DEALER);
         } else {
@@ -29,7 +32,7 @@ export const useStandOperation = () => {
     }
 
     return () => clearInterval(intervalId);
-  }, [decideWinner, draw, looping, sumHand.dealer]);
+  }, [decideWinner, draw, isUnder17, looping, sumHand.dealer]);
 
   return useCallback(() => {
     openDealerHand();

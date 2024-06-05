@@ -3,8 +3,16 @@ import { useGetSumHand } from '@/hooks/useGetSumHand';
 import { useStore } from '@/store';
 
 export const BoardContainer = () => {
-  const { hand, startFlag } = useStore();
+  const { hand, startFlag, isShowNotice, winner } = useStore();
   const sumHand = useGetSumHand();
 
-  return <Board hand={hand} sumHand={sumHand} startFlag={startFlag} />;
+  return (
+    <Board
+      hand={hand}
+      sumHand={sumHand}
+      startFlag={startFlag}
+      isShowNotice={isShowNotice}
+      winner={winner}
+    />
+  );
 };

@@ -1,10 +1,10 @@
 import useLocalStorage from '@rehooks/local-storage';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import App from './App';
 import { LOCAL_STORAGE_KEY, ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
 import { useStandOperation } from '@/hooks/useStandOperation';
-import { useStore } from '@/store';
+import { initialState, useStore } from '@/store';
 import { sleep } from '@/utills/timer';
 
 export const AppContainer = () => {
@@ -14,7 +14,6 @@ export const AppContainer = () => {
   const [localStorageGold, setLocalStorageGold] = useLocalStorage<number>(
     LOCAL_STORAGE_KEY.GOLD
   );
-  const [isShowNotice, setIsShowNotice] = useState(false);
 
   const setInitialGold = useCallback(() => {
     if (!localStorageGold || localStorageGold < 100) {
@@ -45,7 +44,7 @@ export const AppContainer = () => {
 
   const noticeWinner = useCallback(async () => {
     if (winner !== undefined) {
-      setIsShowNotice(true);
+      replace({ isShowNotice: true });
       let total = gold;
       if (winner === ROLE.PLAYER) {
         total += bet * 2;
@@ -56,18 +55,19 @@ export const AppContainer = () => {
       setLocalStorageGold(total);
     }
     await sleep(3000);
-    setIsShowNotice(false);
+    replace({ isShowNotice: false });
   }, [bet, gold, replace, setLocalStorageGold, winner]);
 
   const readyForNextGame = useCallback(async () => {
+    const { hand, winner, startFlag, isShowNotice } = initialState;
+
     await noticeWinner();
+
     replace({
-      hand: {
-        dealer: [],
-        player: [],
-      },
-      winner: undefined,
-      startFlag: false,
+      hand,
+      winner,
+      startFlag,
+      isShowNotice,
     });
   }, [noticeWinner, replace]);
 
@@ -97,10 +97,8 @@ export const AppContainer = () => {
       gold={gold}
       bet={bet}
       startFlag={startFlag}
-      isShowNotice={isShowNotice}
       onClickStart={handleClickStart}
       onChangeSlider={handleChangeSlider}
-      onCloseNotice={() => setIsShowNotice(false)}
       onClickHit={hit}
       onClickStand={stand}
       onClickReset={handleClickReset}

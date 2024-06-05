@@ -1,15 +1,12 @@
-import { Button, ButtonGroup, Link, Slider, Snackbar } from '@mui/material';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { Button, ButtonGroup, Link, Slider } from '@mui/material';
+import { memo, useEffect, useState } from 'react';
 import { BoardContainer } from '../Board';
 import { styles } from './App.css';
 import { State } from '@/store/type';
-import { capitalizeFirstLetter } from '@/utills/stringUtill';
 
 type Props = Pick<State, 'gold' | 'bet' | 'winner' | 'startFlag'> & {
-  isShowNotice: boolean;
   onClickStart: () => void;
   onChangeSlider: (value: number) => void;
-  onCloseNotice: () => void;
   onClickHit: () => void;
   onClickStand: () => void;
   onClickReset: () => void;
@@ -21,26 +18,14 @@ export const App = memo(
     gold,
     bet,
     startFlag,
-    isShowNotice,
     onClickStart,
     onChangeSlider,
-    onCloseNotice,
     onClickHit,
     onClickStand,
     onClickReset,
   }: Props) => {
     const [disabled, setDisabled] = useState(false);
     const isAbleStart = gold >= 100;
-
-    const message = useMemo<string>(() => {
-      if (winner === 'draw') {
-        return winner;
-      }
-      if (winner) {
-        return `${capitalizeFirstLetter(winner)} Win!`;
-      }
-      return '';
-    }, [winner]);
 
     useEffect(() => {
       if (winner) {
@@ -56,10 +41,13 @@ export const App = memo(
 
         {!startFlag && (
           <div css={styles.startView}>
+            <div css={styles.title}>
+              <span css={styles.titleInner}>React Black Jack</span>
+            </div>
             <div css={[styles.label, styles.startViewItem('GoldLabel')]}>
               GOLD:
             </div>
-            <div css={styles.startViewItem('Gold')}>{gold}</div>
+            <div css={styles.gold}>{gold}</div>
             <div css={[styles.label, styles.startViewItem('SliderLabel')]}>
               BET:
             </div>
@@ -131,13 +119,6 @@ export const App = memo(
             </ButtonGroup>
           </div>
         )}
-
-        <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          open={isShowNotice}
-          onClose={onCloseNotice}
-          message={message}
-        />
       </div>
     );
   }

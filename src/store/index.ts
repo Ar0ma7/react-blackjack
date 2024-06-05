@@ -4,7 +4,7 @@ import { ROLE } from '@/constants';
 import { getInitialDeck } from '@/utills/getInitialDeck';
 import { getRandomInt } from '@/utills/getRandomInt';
 
-const initialState: State = {
+export const initialState: State = {
   deck: getInitialDeck(),
   hand: {
     dealer: [],
@@ -14,12 +14,15 @@ const initialState: State = {
   gold: 5000,
   bet: 100,
   startFlag: false,
+  isShowNotice: false,
 };
 
 export const useStore = create<Store>((set, get) => ({
   ...initialState,
   draw: (role, isFront = true) => {
-    const { deck, hand } = get();
+    const { hand } = get();
+    const deck = get().deck.length ? get().deck : getInitialDeck();
+
     const randomIndex = getRandomInt(deck.length);
     const drawCard = deck.find((_, index) => index === randomIndex)!;
     const drawnDeck = deck.filter((_, index) => index !== randomIndex);
