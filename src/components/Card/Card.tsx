@@ -20,7 +20,7 @@ export const Card = memo(({ suite, number, isFront }: Props) => {
 
   return (
     <div css={styles.card}>
-      <img src={imgSrc} alt="" css={styles.image} loading="lazy" />
+      <img src={imgSrc} alt="" css={styles.image} />
     </div>
   );
 });
