@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import bg from '@/assets/image/bg.png';
 import { getGridTemplate } from '@/utils/styleUtil';
 
 type GridArea = 'DealerArea' | 'Center' | 'PlayerArea';
@@ -22,7 +21,7 @@ export const styles = {
     grid-template: ${gridTemplateString};
     width: 100vw;
     height: 100vh;
-    background: ${`url(${bg})`};
+    background: url('/image/bg.png');
   `,
   playerBoard: (gridArea: GridArea) => css`
     grid-area: ${gridArea};
