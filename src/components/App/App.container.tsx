@@ -3,36 +3,19 @@ import { useCallback, useEffect } from 'react';
 import App from './App';
 import { LOCAL_STORAGE_KEY, ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
+import { useImagePreloader } from '@/hooks/useImagePreloader';
 import { useStandOperation } from '@/hooks/useStandOperation';
 import { initialState, useStore } from '@/store';
-import { getInitialDeck } from '@/utils/getInitialDeck';
 import { sleep } from '@/utils/timer';
 
-const deck = getInitialDeck(1);
-const imagePathList = [
-  ...deck.map(
-    ({ suite, number }) =>
-      `/image/card_${suite}_${`${number}`.padStart(2, '0')}.png`
-  ),
-  '/image/card_back.png',
-];
-let loadedCount = 0;
-
 export const AppContainer = () => {
+  useImagePreloader();
   const { winner, gold, bet, startFlag, draw, replace, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
   const [localStorageGold, setLocalStorageGold] = useLocalStorage<number>(
     LOCAL_STORAGE_KEY.GOLD
   );
-
-  const preloadImages = useCallback(() => {
-    imagePathList.map((path) => {
-      const img = new Image();
-      img.src = path;
-      img.onload = () => (loadedCount += 1);
-    });
-  }, []);
 
   const setInitialGold = useCallback(() => {
     if (!localStorageGold || localStorageGold < 100) {
@@ -96,10 +79,6 @@ export const AppContainer = () => {
 
   // on mounted
   useEffect(() => {
-    if (loadedCount < imagePathList.length) {
-      preloadImages();
-    }
-
     setInitialGold();
     return () => {
       reset();
