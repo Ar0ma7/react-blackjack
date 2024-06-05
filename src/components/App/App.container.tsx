@@ -3,11 +3,13 @@ import { useCallback, useEffect } from 'react';
 import App from './App';
 import { LOCAL_STORAGE_KEY, ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
+import { useImagePreloader } from '@/hooks/useImagePreloader';
 import { useStandOperation } from '@/hooks/useStandOperation';
 import { initialState, useStore } from '@/store';
 import { sleep } from '@/utils/timer';
 
 export const AppContainer = () => {
+  useImagePreloader();
   const { winner, gold, bet, startFlag, draw, replace, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();

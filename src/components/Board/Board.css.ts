@@ -21,7 +21,7 @@ export const styles = {
     grid-template: ${gridTemplateString};
     width: 100vw;
     height: 100vh;
-    background: url('/images/bg.png');
+    background: url('/image/bg.png');
   `,
   playerBoard: (gridArea: GridArea) => css`
     grid-area: ${gridArea};
