@@ -5,7 +5,7 @@ import { LOCAL_STORAGE_KEY, ROLE } from '@/constants';
 import { useHitOperation } from '@/hooks/useHitOperation';
 import { useStandOperation } from '@/hooks/useStandOperation';
 import { initialState, useStore } from '@/store';
-import { sleep } from '@/utills/timer';
+import { sleep } from '@/utils/timer';
 
 export const AppContainer = () => {
   const { winner, gold, bet, startFlag, draw, replace, reset } = useStore();

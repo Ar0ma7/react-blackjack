@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { State, Store } from './type';
 import { ROLE } from '@/constants';
-import { getInitialDeck } from '@/utills/getInitialDeck';
-import { getRandomInt } from '@/utills/getRandomInt';
+import { getInitialDeck } from '@/utils/getInitialDeck';
+import { getRandomInt } from '@/utils/getRandomInt';
 
 export const initialState: State = {
   deck: getInitialDeck(),

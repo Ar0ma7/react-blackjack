@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { ROLE } from '@/constants';
 import { useStore } from '@/store';
 import { Role } from '@/types';
-import { sum } from '@/utills/arrayUtill';
+import { sum } from '@/utils/arrayUtil';
 
 export type SumHand = {
   player: number[];

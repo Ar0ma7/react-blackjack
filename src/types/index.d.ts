@@ -1,5 +1,5 @@
 import { ROLE, SUITE } from '@/constants';
-import { valueOf } from '@/utills/typeUtill';
+import { valueOf } from '@/utils/typeUtil';
 
 export type Suite = valueOf<typeof SUITE>;
 

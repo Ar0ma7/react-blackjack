@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { getGridTemplate } from '@/utills/styleUtil';
+import { getGridTemplate } from '@/utils/styleUtil';
 
 type GridArea =
   | 'Title'

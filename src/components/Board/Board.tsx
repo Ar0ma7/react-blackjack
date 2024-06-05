@@ -3,7 +3,7 @@ import { styles } from './Board.css';
 import { Card } from '@/components/Card';
 import { SumHand } from '@/hooks/useGetSumHand';
 import { State } from '@/store/type';
-import { capitalizeFirstLetter } from '@/utills/stringUtill';
+import { capitalizeFirstLetter } from '@/utils/stringUtil';
 
 type Props = Pick<State, 'hand' | 'startFlag' | 'isShowNotice' | 'winner'> & {
   sumHand: SumHand;
