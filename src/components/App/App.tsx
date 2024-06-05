@@ -2,7 +2,6 @@ import { Button, ButtonGroup, Link, Slider } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
 import { BoardContainer } from '../Board';
 import { styles } from './App.css';
-import { PreloadImages } from './PreloadImages';
 import { State } from '@/store/type';
 
 type Props = Pick<State, 'gold' | 'bet' | 'winner' | 'startFlag'> & {
@@ -39,7 +38,6 @@ export const App = memo(
     return (
       <div css={styles.container}>
         <BoardContainer />
-        <PreloadImages />
 
         {!startFlag && (
           <div css={styles.startView}>
