@@ -10,11 +10,7 @@ export const styles = {
     }
   `,
   image: css`
-    display: none;
     width: auto;
     height: 100%;
-  `,
-  isVisible: css`
-    display: block;
   `,
 };
