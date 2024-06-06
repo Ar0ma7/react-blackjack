@@ -53,7 +53,7 @@ export const AppContainer = () => {
       } else if (winner === 'draw') {
         total += bet;
       }
-      update({ gold: total });
+      update({ gold: total, ...(bet > total && { bet: initialState.bet }) });
       setLocalStorageGold(total);
     }
     await sleep(3000);
