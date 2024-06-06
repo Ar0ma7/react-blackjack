@@ -10,7 +10,7 @@ import { sleep } from '@/utils/timer';
 
 export const AppContainer = () => {
   useImagePreloader();
-  const { winner, gold, bet, startFlag, draw, replace, reset } = useStore();
+  const { winner, gold, bet, startFlag, draw, update, reset } = useStore();
   const stand = useStandOperation();
   const hit = useHitOperation();
   const [localStorageGold, setLocalStorageGold] = useLocalStorage<number>(
@@ -21,9 +21,9 @@ export const AppContainer = () => {
     if (!localStorageGold || localStorageGold < 100) {
       setLocalStorageGold(gold);
     } else {
-      replace({ gold: localStorageGold });
+      update({ gold: localStorageGold });
     }
-  }, [gold, localStorageGold, replace, setLocalStorageGold]);
+  }, [gold, localStorageGold, setLocalStorageGold, update]);
 
   const setInitialHand = useCallback(() => {
     draw(ROLE.PLAYER);
@@ -33,45 +33,45 @@ export const AppContainer = () => {
   }, [draw]);
 
   const handleClickStart = useCallback(() => {
-    replace({ startFlag: true, gold: gold - bet });
+    update({ startFlag: true, gold: gold - bet });
     setInitialHand();
-  }, [bet, gold, replace, setInitialHand]);
+  }, [bet, gold, setInitialHand, update]);
 
   const handleChangeSlider = useCallback(
     (bet: number) => {
-      replace({ bet });
+      update({ bet });
     },
-    [replace]
+    [update]
   );
 
   const noticeWinner = useCallback(async () => {
     if (winner !== undefined) {
-      replace({ isShowNotice: true });
+      update({ isShowNotice: true });
       let total = gold;
       if (winner === ROLE.PLAYER) {
         total += bet * 2;
       } else if (winner === 'draw') {
         total += bet;
       }
-      replace({ gold: total });
+      update({ gold: total });
       setLocalStorageGold(total);
     }
     await sleep(3000);
-    replace({ isShowNotice: false });
-  }, [bet, gold, replace, setLocalStorageGold, winner]);
+    update({ isShowNotice: false });
+  }, [bet, gold, setLocalStorageGold, update, winner]);
 
   const readyForNextGame = useCallback(async () => {
     const { hand, winner, startFlag, isShowNotice } = initialState;
 
     await noticeWinner();
 
-    replace({
+    update({
       hand,
       winner,
       startFlag,
       isShowNotice,
     });
-  }, [noticeWinner, replace]);
+  }, [noticeWinner, update]);
 
   const handleClickReset = useCallback(() => {
     reset();
