@@ -98,7 +98,7 @@ export const App = memo(
               <div>{bet}</div>
             </div>
             <ButtonGroup
-              css={{ marginTop: '10px' }}
+              css={{ marginTop: '10px', background: '#777' }}
               disabled={disabled}
               orientation="vertical"
               variant="contained"
