@@ -58,8 +58,7 @@ export const Board = memo(
 
               <div css={styles.noticeWinner(isShowNotice)}>
                 <div css={styles.noticeMessage(isShowNotice)}>
-                  Player Win!
-                  {/* {noticeMessage} */}
+                  {noticeMessage}
                 </div>
               </div>
             </div>
