@@ -57,6 +57,6 @@ export const useStore = create<Store>((set, get) => ({
       },
     }));
   },
-  replace: (someState: Partial<Store>) => set(someState),
+  update: (someState: Partial<Store>) => set(someState),
   reset: () => set(initialState),
 }));

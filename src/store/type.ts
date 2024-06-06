@@ -13,7 +13,7 @@ export type State = {
 export type Action = {
   draw: (role: Role, isFront?: boolean) => void;
   openDealerHand: () => void;
-  replace: (someState: Partial<State>) => void;
+  update: (someState: Partial<State>) => void;
   reset: () => void;
 };
 

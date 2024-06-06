@@ -42,7 +42,7 @@ export const App = memo(
         {!startFlag && (
           <div css={styles.startView}>
             <div css={styles.title}>
-              <span css={styles.titleInner}>React Black Jack</span>
+              <img src="/image/logo.png" alt="" css={styles.logo} />
             </div>
             <div css={[styles.label, styles.startViewItem('GoldLabel')]}>
               GOLD:
@@ -98,7 +98,7 @@ export const App = memo(
               <div>{bet}</div>
             </div>
             <ButtonGroup
-              css={{ marginTop: '10px' }}
+              css={{ marginTop: '10px', background: '#777' }}
               disabled={disabled}
               orientation="vertical"
               variant="contained"

@@ -1,5 +1,2 @@
-export const getRandomInt = (a: number = 1, b: number = 0) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+export const getRandomInt = (max: number): number =>
+  Math.floor(Math.random() * max);

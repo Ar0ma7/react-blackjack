@@ -39,6 +39,7 @@ export const styles = {
     background: #fff;
     padding: 20px 40px;
     border-radius: 5px;
+    width: 400px;
   `,
   startViewItem: (gridArea: GridArea) => css`
     grid-area: ${gridArea};
@@ -47,6 +48,15 @@ export const styles = {
     font-size: 32px;
     font-weight: bold;
     grid-area: Title;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  `,
+  logo: css`
+    display: block;
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
   `,
   titleInner: css`
     position: relative;
@@ -68,7 +78,9 @@ export const styles = {
   `,
   label: css`
     text-align: right;
+    justify-self: end;
     font-weight: bold;
+    padding-right: 1em;
   `,
   gold: css`
     grid-area: Gold;

@@ -6,7 +6,7 @@ import { Winner } from '@/types';
 
 export const useDecideWinner = () => {
   const sumHand = useGetSumHand();
-  const { replace } = useStore();
+  const { update } = useStore();
 
   const getMax = useCallback((hand: number[]): number => {
     return hand[1] <= 21 ? hand[1] : hand[0];
@@ -33,10 +33,10 @@ export const useDecideWinner = () => {
       }
     }
 
-    replace({
+    update({
       winner,
     });
-  }, [getMax, replace, sumHand.dealer, sumHand.player]);
+  }, [getMax, sumHand.dealer, sumHand.player, update]);
 
   return { decideWinner };
 };
