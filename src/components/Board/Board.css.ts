@@ -60,16 +60,33 @@ export const styles = {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.6);
+    display: grid;
+    align-content: center;
+    opacity: 0;
+    ${isShow &&
+    css`
+      animation: fadeIn 3s;
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        8% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    `}
+  `,
+  noticeMessage: (isShow: boolean) => css`
     color: #fff;
     font-weight: bold;
     font-style: italic;
     font-size: 50px;
     text-align: center;
-    vertical-align: middle;
-    display: grid;
-    align-content: center;
-    opacity: 0;
     transform: translateX(-100%);
+    opacity: 0;
     ${isShow &&
     css`
       animation: slideInLeft 3s;
