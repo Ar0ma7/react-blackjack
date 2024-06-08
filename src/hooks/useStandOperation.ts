@@ -19,7 +19,7 @@ export const useStandOperation = () => {
   );
 
   useEffect(() => {
-    let intervalId: number;
+    let intervalId: NodeJS.Timeout;
     if (looping) {
       intervalId = setInterval(() => {
         if (isUnder17) {
