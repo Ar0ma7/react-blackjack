@@ -19,7 +19,7 @@ export const useStandOperation = () => {
   );
 
   useEffect(() => {
-    let intervalId: number;
+    let intervalId: ReturnType<typeof setInterval>;
     if (looping) {
       intervalId = setInterval(() => {
         if (isUnder17) {
