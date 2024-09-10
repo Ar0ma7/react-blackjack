@@ -5,6 +5,8 @@
 **_DEMO:_**
 https://react-blackjack-kohl.vercel.app
 
+![image](https://github.com/user-attachments/assets/ffb23ffa-4e7d-4ede-a01b-5c8141ada1ed)
+
 ## Requirement
 
 - Node.js 21.6.2+
